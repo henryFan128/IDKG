@@ -15,7 +15,7 @@ import seaborn as sns
 
 import random
 
-uri = "bolt:localhost:7687"  
+uri = "neo4j://219.228.149.80:7687"  
 username = "neo4j"              
 password = "xxxxxxxxxxx"     
 driver = GraphDatabase.driver(uri, auth=(username, password))
@@ -135,6 +135,33 @@ def train_and_evaluate(model, model_name, train_data, val_data, test_data):
 
     return Accuracy, ROC, PRC
 
+def cross_validate(model_class, model_name, data, k=10):
+    accuracies = []
+    rocs = []
+    prcs = []
+
+    kf = KFold(n_splits=k, shuffle=True, random_state=42)
+    for train_index, test_index in kf.split(data.edge_index.t().numpy()):
+        train_data, val_data, test_data = transform(data)
+        model = model_class(in_channels=data.num_features, out_channels=32)
+        accuracy, roc_auc, prc_auc = train_and_evaluate(model, model_name, train_data, val_data, test_data)
+        accuracies.append(accuracy)
+        rocs.append(roc_auc)
+        prcs.append(prc_auc)
+
+    accuracy_mean = np.mean(accuracies)
+    accuracy_std = np.std(accuracies)
+    roc_mean = np.mean(rocs)
+    roc_std = np.std(rocs)
+    prc_mean = np.mean(prcs)
+    prc_std = np.std(prcs)
+
+    print(f'{model_name} - Accuracy: {accuracy_mean:.4f} ± {accuracy_std:.4f}')
+    print(f'{model_name} - ROC AUC: {roc_mean:.4f} ± {roc_std:.4f}')
+    print(f'{model_name} - PRC AUC: {prc_mean:.4f} ± {prc_std:.4f}')
+
+    return accuracy_mean, accuracy_std, roc_mean, roc_std, prc_mean, prc_std
+
 nodes, edges, positive_edges, node_labels, node_names, drug_nodes, disease_nodes, protein_nodes = get_graph_data()
 node_id_map = {node_id: i for i, node_id in enumerate(nodes)}
 reverse_node_id_map = {i: node_id for node_id, i in node_id_map.items()}
@@ -165,6 +192,8 @@ train_and_evaluate(gcn_model, "GCN", train_data, val_data, test_data)
 gat_model = GCN_GAT(in_channels=data.num_features, out_channels=32)
 train_and_evaluate(gat_model, "GAT", train_data, val_data, test_data)
 
+cross_validate(GCN, "GCN", data)
+cross_validate(GCN_GAT, "GAT", data)
 
 torch.save(gcn_model, 'M1.pth')
 torch.save(gat_model, 'M2.pth')
