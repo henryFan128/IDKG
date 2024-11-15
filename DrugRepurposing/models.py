@@ -34,7 +34,6 @@ class GCN(torch.nn.Module):
 
     def decode(self, z, edge_index):
         src, dst = edge_index
-        # 将源节点和目标节点的嵌入拼接
         z_src = z[src]
         z_dst = z[dst]
         z_concat = torch.cat([z_src, z_dst], dim=1)  
@@ -43,12 +42,10 @@ class GCN(torch.nn.Module):
     def loss(self, z, pos_edge_index, neg_edge_index):
         pos_pred = self.decode(z, pos_edge_index)
         neg_pred = self.decode(z, neg_edge_index)
-        # 创建标签
         pos_label = torch.ones(pos_pred.size(0), device=pos_pred.device)
         neg_label = torch.zeros(neg_pred.size(0), device=neg_pred.device)
         pred = torch.cat([pos_pred, neg_pred], dim=0)
         labels = torch.cat([pos_label, neg_label], dim=0)
-        # 使用 BCEWithLogitsLoss（内部包含 Sigmoid）
         return F.binary_cross_entropy_with_logits(pred, labels)
 
     def test(self, z, pos_edge_index, neg_edge_index):

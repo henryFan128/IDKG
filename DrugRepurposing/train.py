@@ -85,7 +85,7 @@ def train_and_evaluate(model, model_name, train_data, val_data, test_data):
         neg_edge_index = train_data.edge_label_index[:, train_data.edge_label == 0]
         loss = model.loss(z, pos_edge_index, neg_edge_index)
         loss.backward()
-        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  # 梯度裁剪
+        torch.nn.utils.clip_grad_norm_(model.parameters(), max_norm=1.0)  
         optimizer.step()
         scheduler.step() 
         losses.append(loss.item())
