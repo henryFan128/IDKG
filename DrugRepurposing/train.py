@@ -1,9 +1,11 @@
 import torch
 import torch.nn as nn
+import torch.nn.functional as F
 from torch_geometric.data import Data
 from torch_geometric.transforms import RandomLinkSplit
 from models import GCN, GCN_GAT
 
+from sklearn.model_selection import KFold
 from sklearn.metrics import roc_auc_score, accuracy_score, roc_curve, average_precision_score, precision_recall_curve
 from neo4j import GraphDatabase
 import networkx as nx
@@ -15,7 +17,7 @@ import seaborn as sns
 
 import random
 
-uri = "neo4j://219.228.149.80:7687"  
+uri = "bolt://localhost:7687"  
 username = "neo4j"              
 password = "xxxxxxxxxxx"     
 driver = GraphDatabase.driver(uri, auth=(username, password))
@@ -172,7 +174,7 @@ G_full = nx.Graph()
 G_full.add_nodes_from(range(len(nodes)))
 G_full.add_edges_from(edges)
 
-# change NetworkX Graph into PyTorch Geometric 
+# Change NetworkX Graph into PyTorch Geometric 
 edge_index = torch.tensor(list(G_full.edges)).t().contiguous()
 x = torch.eye(len(G_full.nodes))
 data = Data(x=x, edge_index=edge_index)
