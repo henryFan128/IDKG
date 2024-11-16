@@ -1,17 +1,7 @@
-import numpy as np
-import pandas as pd
-from scipy import optimize
 import argparse
-import os
-import cPickle as pickle
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-
 from embedding_dist import cal_embedding_distance
-
-#temp
-import networkx as nx
 
 def parse_args():
     '''
