@@ -3,10 +3,10 @@ import torch.nn.functional as F
 from neo4j import GraphDatabase
 from torch_geometric.data import Data
 
-uri = "bolt://219.228.149.80:7687"
+uri = "bolt://localhost:7687"
 username = "neo4j"
 password = "xxxxxxxx"
-ModelPath = "xxx.pth"
+ModelPath = "./checkpoints/xxx.pth"
 
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 model = torch.load(ModelPath, map_location=device)
