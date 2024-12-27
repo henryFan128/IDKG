@@ -1,3 +1,4 @@
+from matplotlib.font_manager import FontProperties
 from neo4j import GraphDatabase
 import networkx as nx
 from node2vec import Node2Vec
@@ -8,9 +9,19 @@ import numpy as np
 import pandas as pd
 import random
 
-uri = "bolt://localhost:7687"  
+# 设置 Arial 字体路径
+font_path = './Arial.ttf'
+arial_font = FontProperties(fname=font_path)
+arial_bold_font = FontProperties(fname=font_path, weight='bold')
+
+""" uri = "bolt://localhost:7687"  
 username = "neo4j"  
-password = "xxxxxxxxxxx"     
+password = "xxxxxxxxxxx"      """
+
+uri = "Neo4j://219.228.149.80:7687"  # 根据实际情况修改
+username = "neo4j"              # 根据实际情况修改
+password = "emotion-gilbert-rhino-orient-gyro-7433"     # 根据实际情况修改
+
 driver = GraphDatabase.driver(uri, auth=(username, password))
 
 def get_data():
@@ -89,20 +100,21 @@ tsne_df = pd.DataFrame(X_tsne, columns=['x', 'y'])
 tsne_df['type'] = [node_info[int(node_id)]['type'] for node_id in node_ids]
 
 plt.figure(figsize=(8, 6))
+sns.set_style("whitegrid")  
 sns.scatterplot(data=tsne_df, x='x', y='y', hue='type', palette={
-    'Drug': '#FDD379',
-    'Disease': '#F7C2CD',
-    'Protein': '#A6DAEF',
-    'Pathogen': '#B0D9A5',
-    'Pathway': '#E68D3D', 
-    'Gene': '#E26472',
-    'ADRs': '#6270B7',
-    'Small_Molecule': '#077535'
+    'Drug': '#DE7833',
+    'Disease': '#912C2C',
+    'Protein': '#F2BB6B',
+    'Pathogen': '#C2ABC8',
+    'Pathway': '#329845', 
+    'Gene': '#276C9E',
+    'ADRs': '#AED185',
+    'Small_Molecule': '#A3C9D5'
 })
-# plt.title('Node2Vec Embedding t-SNE Visualization')
-plt.legend(fontsize='small')
-plt.axis('off')  
-plt.savefig('tsne', dpi=300, bbox_inches='tight', pad_inches=0)
+plt.legend(prop=arial_bold_font)
+# plt.xlabel('dimension 1', fontsize=14, fontproperties=arial_font)
+# plt.ylabel('dimension 2', fontsize=14, fontproperties=arial_font)
+plt.savefig('tsne3', dpi=300, bbox_inches='tight', pad_inches=0)
 plt.close()
 
 driver.close()
