@@ -35,7 +35,7 @@ python predict.py
 ```
 
 ### Similarity analysis
-In the `SimilarityAnalysis` directory, IDKG can be applied to evaluate the similarity of knowledge of databases.
+In the `SimilarityAnalysis` directory, IDKG can be applied to evaluate the similarity of knowledge in graph databases.
 
 ```
 python DisSimilarity.py
