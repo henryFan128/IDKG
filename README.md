@@ -1,7 +1,7 @@
 # IDKG: A multidimensional infectious diseases knowledge graph for accelerating drug discovery
 [![python](https://img.shields.io/badge/Python-3.11-3776AB.svg?style=flat&logo=python&logoColor=yellow)](https://www.python.org)
 [![pytorch](https://img.shields.io/badge/PyTorch-2.3.1-EE4C2C.svg?style=flat&logo=pytorch)](https://pytorch.org)
-[![MIT license](https://img.shields.io/badge/LICENSE-MIT)](https://lbesson.mit-license.org/)
+[![MIT license](https://img.shields.io/badge/LICENSE-MIT-blue)](./LICENSE)
 
 ## Description
 ![](./IDKG-architecture.png)
