@@ -5,7 +5,7 @@
 [![MIT license](https://img.shields.io/badge/LICENSE-MIT-A8ACB9)](./LICENSE)
 
 ## Description
-![](./IDKG.tif)
+![](./IDKG.png)
 IDKG is a comprehensive knowledge graph for infectious diseases that integrates multi-modal biomedical data. It has comprised nearly 50,000 nodes across 8 types and 1.2 million edges of 11 types. Leveraging deep learning techniques, IDKG offers application scenarios for drug development, with particular significance during pandemic outbreaks.
 
 ## Get start
